@@ -13,6 +13,7 @@
   </div>
   <div v-else>
     <h2 style="margin-top: 2rem;">Welcome {{displayName}} to the website!</h2>
+    <MerchForm />
   </div>
   
   <Footer />
@@ -24,6 +25,7 @@ import NavigationBar from './components/NavigationBar.vue'
 import Footer from './components/Footer.vue'
 import SignUpForm from './components/SignUpForm.vue'
 import SignInForm from './components/SignInForm.vue'
+import MerchForm from './components/MerchForm.vue'
 import { auth } from "../Firebase/init.js";
 
 export default {
@@ -34,6 +36,7 @@ export default {
     Footer,
     SignUpForm,
     SignInForm,
+    MerchForm,
   },
   data() {
     return {
