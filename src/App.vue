@@ -1,6 +1,6 @@
 <template>
   <Header />
-  <NavigationBar />
+  <NavigationBar :isLoggedIn="isLoggedIn"/>
   <div v-if="!isLoggedIn">
     <br><br>
     <button type="button" class="btn btn-dark" @click="showLogIn=!showLogIn">Show {{showLogIn ? "Sign Up" : "Sign In"}} Form</button>
@@ -13,7 +13,6 @@
   </div>
   <div v-else>
     <h2 style="margin-top: 2rem;">Welcome {{displayName}} to the website!</h2>
-    <button type="button" class="btn btn-dark" @click="signUserOut">Sign out</button>
   </div>
   
   <Footer />
@@ -26,7 +25,6 @@ import Footer from './components/Footer.vue'
 import SignUpForm from './components/SignUpForm.vue'
 import SignInForm from './components/SignInForm.vue'
 import { auth } from "../Firebase/init.js";
-import { signOut } from "firebase/auth";
 
 export default {
   name: 'App',
@@ -47,21 +45,12 @@ export default {
   beforeUpdate() {
     const user = auth.currentUser;
     if (user) {
-      console.log('testing he');
-      console.log(user);
       if (user.displayName)
         this.displayName = user.displayName;
       else
         this.displayName = "Anonymous";
     }
   },
-  methods: {
-    signUserOut() {
-      signOut(auth).then(
-        () => this.isLoggedIn = false
-      ).catch((err) => console.log(`Something is wrong when trying to log out: ${err.message}!`));
-    }
-  }
 }
 </script>
 
