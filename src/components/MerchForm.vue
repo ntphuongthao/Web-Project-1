@@ -1,9 +1,9 @@
 <template>
-  <form class="container">
-    <input class="form-control" type="text" id="title" name="title" required placeholder="Title">
+  <form class="container" @submit.prevent="addMerch">
+    <input class="form-control" type="text" id="title" name="title" required placeholder="Title" v-model="title">
     <br>
 
-    <textarea class="form-control" id="description" name="description" rows="4" cols="50" placeholder="Description goes here..."></textarea>
+    <textarea class="form-control" id="description" name="description" rows="4" cols="50" placeholder="Description goes here..." v-model="description"></textarea>
     <br>
 
     <input class="form-control" type="file" id="image" name="image" accept="image/*">
@@ -14,6 +14,7 @@
 
 <script>
 import { collection, addDoc } from "firebase/firestore"; 
+import {db} from "../../Firebase/init.js"
 
 export default {
   name: "MerchForm",
@@ -27,16 +28,25 @@ export default {
   methods: {
     addMerch: async () => {
       try {
-        const docRef = await addDoc(collection(db, "merch"), {
+        const merchData = {
           title: this.title,
           description: this.description,
-          image: this.image,
-        });
+        };
+
+        if (this.image) {
+          merchData.image = this.image;
+        }
+
+        const docRef = await addDoc(collection(db, "merch"), merchData);
+
         console.log("Document written with ID: ", docRef.id);
       } catch (e) {
         console.error("Error adding document: ", e.message);
       } 
     }
+  },
+  created() {
+    this.addMerch();
   }
 }
 </script>
