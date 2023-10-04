@@ -27,7 +27,7 @@ import { merch } from "../../server/data.js";
 import {
   collection,
   onSnapshot,
-  doc,
+  // doc,
 } from "firebase/firestore";
 
 export default {
@@ -39,7 +39,8 @@ export default {
   },
   mounted() {
     onSnapshot(collection(db, 'merch'), (querySnapshot) => {
-      const merch = [];
+      this.merchList = merch;
+      const merchArray = [];
       querySnapshot.forEach((m) => {
         const todo = {
           id: m.id,
@@ -48,10 +49,10 @@ export default {
           image:
             m.data().image === "No Image" ? "../assets/no-image.jpeg" : m.data().image,
         };
-        merch.push(todo);
+        merchArray.push(todo);
       })
       // console.log("hereee", merch);
-      this.merchList = this.merchList.concat(merch);
+      this.merchList = this.merchList.concat(merchArray);
     })
   }
 }
