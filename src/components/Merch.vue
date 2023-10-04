@@ -22,7 +22,13 @@
 </template>
 
 <script>
+import { db } from "../../Firebase/init.js";
 import { merch } from "../../server/data.js";
+import {
+  collection,
+  onSnapshot,
+  doc,
+} from "firebase/firestore";
 
 export default {
   name: "Merch",
@@ -31,6 +37,23 @@ export default {
       merchList: merch,
     }
   },
+  mounted() {
+    onSnapshot(collection(db, 'merch'), (querySnapshot) => {
+      const merch = [];
+      querySnapshot.forEach((m) => {
+        const todo = {
+          id: m.id,
+          title: m.data().title,
+          description: m.data().description,
+          image:
+            m.data().image === "No Image" ? "../assets/no-image.jpeg" : m.data().image,
+        };
+        merch.push(todo);
+      })
+      // console.log("hereee", merch);
+      this.merchList = this.merchList.concat(merch);
+    })
+  }
 }
 </script>
 

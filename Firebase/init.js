@@ -3,7 +3,6 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import {
   getAuth,
-  signOut,
 } from "firebase/auth";
 
 const firebaseConfig = {
